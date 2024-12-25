@@ -1,0 +1,22 @@
+{
+    "name": "js-creditagricole-particuliers",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc && npm run start",
+        "test": "tsc && node dist/test.js"
+    },
+    "keywords": [],
+    "author": "jviatge",
+    "license": "ISC",
+    "devDependencies": {
+        "typescript": "^5.4.5"
+    },
+    "dependencies": {
+        "@types/node": "^22.10.2"
+    }
+}
