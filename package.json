@@ -10,6 +10,7 @@
     "types": "dist/index.d.ts",
     "type": "module",
     "scripts": {
+        "publish": "npm run build && npm publish",
         "build": "tsc",
         "dev": "tsc && npm run start",
         "test": "node ./test/script.js"
