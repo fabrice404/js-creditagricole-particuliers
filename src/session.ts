@@ -1,7 +1,3 @@
-import { readFileSync } from "fs";
-
-const aliases = JSON.parse(readFileSync("./aliases.json", "utf-8"));
-
 export type Session = {
     cookie: string;
     accountNumber: string;
@@ -17,7 +13,7 @@ export class session {
 
     static async login(accountNumber: string, password: string, region: string): Promise<Session> {
         const instSession = new session();
-        instSession.regionBankUrl = aliases[region].alias;
+        instSession.regionBankUrl = "ca-nmp";
         const keypad = await instSession.getKeypad();
         const passwordResolved = instSession.resolvePassword(keypad.keyLayout, password);
         await instSession.genCookie({

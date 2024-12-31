@@ -1,4 +1,6 @@
 import { getCurentTransactionXlsx } from "./getCurentTransactionXlsx.js";
-import { session } from "./session";
+import { getListAccounts } from "./getListAccounts.js";
+import { getOperations } from "./getOperations.js";
+import { session } from "./session.js";
 
-export { getCurentTransactionXlsx, session };
+export { getCurentTransactionXlsx, getListAccounts, getOperations, session };

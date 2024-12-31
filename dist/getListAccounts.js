@@ -34,25 +34,57 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { getCurentTransactionXlsx } from "./getCurentTransactionXlsx.js";
-import { session } from "./session.js";
-function main() {
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
+export function getListAccounts(session) {
     return __awaiter(this, void 0, void 0, function () {
-        var password, accountNumber, region, fileName, newSession;
+        var accounts, FAMILLE_PRODUITS;
+        var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    password = "------";
-                    accountNumber = "-------------";
-                    region = "--";
-                    fileName = "operations.xlsx";
-                    return [4 /*yield*/, session.login(accountNumber, password, region)];
+                    accounts = [];
+                    FAMILLE_PRODUITS = [
+                        { code: 1, familleProduit: "COMPTES" },
+                        { code: 3, familleProduit: "EPARGNE_DISPONIBLE" },
+                        { code: 7, familleProduit: "EPARGNE_AUTRE" },
+                    ];
+                    return [4 /*yield*/, Promise.all(FAMILLE_PRODUITS.map(function (familleProduit) { return __awaiter(_this, void 0, void 0, function () {
+                            var url, response, accountsJson;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        url = "".concat(session.baseUrl, "/").concat(session.regionBankUrl, "/particulier/operations/synthese/jcr:content.produits-valorisation.json/").concat(familleProduit.code);
+                                        return [4 /*yield*/, fetch(url, {
+                                                method: "GET",
+                                                headers: {
+                                                    Accept: "*/*",
+                                                    Cookie: session.cookie,
+                                                },
+                                            })];
+                                    case 1:
+                                        response = _a.sent();
+                                        return [4 /*yield*/, response.json()];
+                                    case 2:
+                                        accountsJson = _a.sent();
+                                        if (!accounts.find(function (account) { return account.numeroCompte === accountsJson["numeroCompte"]; })) {
+                                            accounts = __spreadArray(__spreadArray([], accounts, true), accountsJson, true);
+                                        }
+                                        return [2 /*return*/];
+                                }
+                            });
+                        }); }))];
                 case 1:
-                    newSession = _a.sent();
-                    getCurentTransactionXlsx(newSession, fileName);
-                    return [2 /*return*/];
+                    _a.sent();
+                    return [2 /*return*/, accounts];
             }
         });
     });
 }
-main();

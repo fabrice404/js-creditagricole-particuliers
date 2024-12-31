@@ -1,14 +1,18 @@
 {
     "name": "js-creditagricole-particuliers",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jviatge/js-creditagricole-particuliers"
+    },
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "type": "module",
     "scripts": {
         "build": "tsc",
         "dev": "tsc && npm run start",
-        "test": "tsc && node dist/test.js"
+        "test": "node ./test/script.js"
     },
     "keywords": [],
     "author": "jviatge",

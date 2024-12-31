@@ -1,6 +1,6 @@
 import { createWriteStream } from "fs";
 import { Readable } from "stream";
-import { Session } from "./session";
+import { Session } from "./session.js";
 
 export async function getCurentTransactionXlsx(session: Session, fileName?: string) {
     const url = `${session.baseUrl}/${session.regionBankUrl}/particulier/operations/operations-courantes/telechargement/jcr:content.getFichier.json`;
