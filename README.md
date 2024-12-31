@@ -63,7 +63,7 @@ const accounts = await getListAccounts(newSession);
 
 ### Liste des opérations
 
-Paramètres pour l'authentification:
+Paramètres pour la récupération des opérations:
 
 -   newSession : Session active
 -   account : Compte concerné pour la liste des opérations
