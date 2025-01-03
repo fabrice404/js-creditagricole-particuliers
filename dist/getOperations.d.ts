@@ -1,3 +1,25 @@
 import { Account } from "./getListAccounts.js";
 import { Session } from "./session.js";
-export declare const getOperations: (session: Session, account: Account, dateDebut: string, dateFin: string) => Promise<any>;
+export type Operation = {
+    dateOperation: string;
+    dateValeur: string;
+    typeOperation: string;
+    codeTypeOperation: string;
+    familleTypeOperation: string;
+    libelleOperation: string;
+    libelleTypeOperation: string;
+    montant: number;
+    idDevise: string;
+    libelleDevise: string;
+    libelleComplementaire: string;
+    referenceMandat: string;
+    idCreancier: string;
+    libelleCash1: string;
+    libelleCash2: string;
+    idCarte: string;
+    indexCarte: number;
+    referenceClient: string;
+    pictogrammeCSS: string;
+    fitid: string;
+};
+export declare const getOperations: (session: Session, account: Account, dateDebut: string, dateFin: string) => Promise<Operation[]>;

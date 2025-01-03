@@ -65,6 +65,8 @@ const accounts = await getListAccounts(newSession);
 
 Paramètres pour la récupération des opérations:
 
+> Attention limite d'un mois maximun
+
 -   newSession : Session active
 -   account : Compte concerné pour la liste des opérations
 -   date de début (string)

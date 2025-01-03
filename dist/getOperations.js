@@ -34,36 +34,110 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
+var operations = [];
+var sleep = function (ms) { return new Promise(function (resolve) { return setTimeout(resolve, ms); }); };
+var resolveStartIndex = function (url, nextSetStartIndex) {
+    var startIndex = url.indexOf("&startIndex=");
+    if (startIndex === -1) {
+        return "".concat(url, "&startIndex=").concat(encodeURI(nextSetStartIndex));
+    }
+    else {
+        return url.replace(/&startIndex=[^&]+/, "&startIndex=".concat(encodeURI(nextSetStartIndex)));
+    }
+};
+var getData = function (resolve, reject, session, url) { return __awaiter(void 0, void 0, void 0, function () {
+    var response, operationsJson;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, fetch(url, {
+                    method: "GET",
+                    headers: {
+                        Accept: "*/*",
+                        Cookie: session.cookie,
+                    },
+                })];
+            case 1:
+                response = _a.sent();
+                return [4 /*yield*/, response.json()];
+            case 2:
+                operationsJson = _a.sent();
+                operations = __spreadArray(__spreadArray([], operations, true), operationsJson.listeOperations, true);
+                return [4 /*yield*/, sleep(2000)];
+            case 3:
+                _a.sent();
+                console.log(url);
+                if (operationsJson.hasNext) {
+                    getData(resolve, reject, session, resolveStartIndex(url, operationsJson.nextSetStartIndex));
+                }
+                else {
+                    return [2 /*return*/, resolve()];
+                }
+                return [2 /*return*/];
+        }
+    });
+}); };
 export var getOperations = function (session, account, dateDebut, // "2024-12-20"
 dateFin // "2024-12-26"
 ) { return __awaiter(void 0, void 0, void 0, function () {
-    var ts_date_debut, ts_date_fin, limit, url, response, accountsJson;
+    var ts_date_debut, ts_date_fin, limit, url;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 ts_date_debut = new Date(dateDebut).getTime();
                 ts_date_fin = new Date(dateFin).getTime();
-                limit = 100;
+                limit = 90;
                 url = "".concat(session.baseUrl, "/").concat(session.regionBankUrl, "/particulier/operations/synthese/detail-comptes/");
                 url += "jcr:content.n3.operations.json";
                 url += "?grandeFamilleCode=".concat(account.grandeFamilleProduitCode, "&compteIdx=").concat(account.index);
                 url += "&idDevise=EUR";
                 url += "&dateDebut=".concat(ts_date_debut);
                 url += "&dateFin=".concat(ts_date_fin);
-                url += "&limit=".concat(limit);
-                return [4 /*yield*/, fetch(url, {
-                        method: "GET",
-                        headers: {
-                            Accept: "*/*",
-                            Cookie: session.cookie,
-                        },
-                    })];
+                url += "&count=".concat(limit);
+                // while (true) {
+                //     const response = await fetch(url, {
+                //         method: "GET",
+                //         headers: {
+                //             Accept: "*/*",
+                //             Cookie: session.cookie,
+                //         },
+                //     });
+                //     const operationsJson = await response.json();
+                //     operations = [...operations, ...operationsJson.listeOperations];
+                //     if (operationsJson.hasNext) {
+                //         url = `&startIndex=${encodeURI(operationsJson.nextSetStartIndex)}`;
+                //     } else {
+                //         break;
+                //     }
+                // }
+                return [4 /*yield*/, new Promise(function (r, j) { return getData(r, j, session, url); })];
             case 1:
-                response = _a.sent();
-                return [4 /*yield*/, response.json()];
-            case 2:
-                accountsJson = _a.sent();
-                return [2 /*return*/, accountsJson];
+                // while (true) {
+                //     const response = await fetch(url, {
+                //         method: "GET",
+                //         headers: {
+                //             Accept: "*/*",
+                //             Cookie: session.cookie,
+                //         },
+                //     });
+                //     const operationsJson = await response.json();
+                //     operations = [...operations, ...operationsJson.listeOperations];
+                //     if (operationsJson.hasNext) {
+                //         url = `&startIndex=${encodeURI(operationsJson.nextSetStartIndex)}`;
+                //     } else {
+                //         break;
+                //     }
+                // }
+                _a.sent();
+                return [2 /*return*/, operations];
         }
     });
 }); };
