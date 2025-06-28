@@ -34,77 +34,53 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
-var operations = [];
-var sleep = function (ms) { return new Promise(function (resolve) { return setTimeout(resolve, ms); }); };
-var resolveStartIndex = function (url, nextSetStartIndex) {
-    var startIndex = url.indexOf("&startIndex=");
-    if (startIndex === -1) {
-        return "".concat(url, "&startIndex=").concat(encodeURI(nextSetStartIndex));
-    }
-    else {
-        return url.replace(/&startIndex=[^&]+/, "&startIndex=".concat(encodeURI(nextSetStartIndex)));
-    }
-};
-var getData = function (resolve, reject, session, url) { return __awaiter(void 0, void 0, void 0, function () {
-    var response, operationsJson;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, fetch(url, {
-                    method: "GET",
-                    headers: {
-                        Accept: "*/*",
-                        Cookie: session.cookie,
-                    },
-                })];
-            case 1:
-                response = _a.sent();
-                return [4 /*yield*/, response.json()];
-            case 2:
-                operationsJson = _a.sent();
-                operations = __spreadArray(__spreadArray([], operations, true), operationsJson.listeOperations, true);
-                return [4 /*yield*/, sleep(1000)];
-            case 3:
-                _a.sent();
-                if (operationsJson.hasNext) {
-                    getData(resolve, reject, session, resolveStartIndex(url, operationsJson.nextSetStartIndex));
-                }
-                else {
-                    return [2 /*return*/, resolve()];
-                }
-                return [2 /*return*/];
-        }
-    });
-}); };
-export var getOperations = function (session, account, dateDebut, // "2024-12-20"
-dateFin // "2024-12-26"
-) { return __awaiter(void 0, void 0, void 0, function () {
-    var ts_date_debut, ts_date_fin, limit, url;
+var getData = function (session, url) { return __awaiter(void 0, void 0, void 0, function () {
+    var response, syntheseJson;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                ts_date_debut = new Date(dateDebut).getTime();
-                ts_date_fin = new Date(dateFin).getTime();
-                limit = 90;
-                url = "".concat(session.baseUrl, "/").concat(session.regionBankUrl, "/particulier/operations/synthese/detail-comptes/");
-                url += "jcr:content.n3.operations.json";
-                url += "?grandeFamilleCode=".concat(account.grandeFamilleProduitCode, "&compteIdx=").concat(account.index);
-                url += "&idDevise=EUR";
-                url += "&dateDebut=".concat(ts_date_debut);
-                url += "&dateFin=".concat(ts_date_fin);
-                url += "&count=".concat(limit);
-                return [4 /*yield*/, new Promise(function (r, j) { return getData(r, j, session, url); })];
+                console.log(session.cookie);
+                console.log("<------------>");
+                return [4 /*yield*/, fetch(url, {
+                        method: "GET",
+                        headers: {
+                            Accept: "*/*",
+                            // "Accept-Language": "fr-FR,fr;q=0.8",
+                            // connection: "keep-alive",
+                            // "x-requested-with": "XMLHttpRequest",
+                            // Referer: "https://www.credit-agricole.fr/ca-nmp/particulier/operations/synthese.html",
+                            // "Sec-Fetch-Dest": "empty",
+                            // "Sec-Fetch-Mode": "cors",
+                            // "Sec-Fetch-Site": "same-origin",
+                            // "User-Agent":
+                            //     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36",
+                            // "X-Requested-With": "XMLHttpRequest",
+                            // Host: "www.credit-agricole.fr",
+                            Cookie: session.cookie,
+                        },
+                    })];
             case 1:
-                _a.sent();
-                return [2 /*return*/, operations];
+                response = _a.sent();
+                console.log("Fetching data from: ".concat(url));
+                console.log(response);
+                return [4 /*yield*/, response.json()];
+            case 2:
+                syntheseJson = _a.sent();
+                return [2 /*return*/, syntheseJson];
+        }
+    });
+}); };
+export var getValueTotal = function (session, account) { return __awaiter(void 0, void 0, void 0, function () {
+    var url, data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                url = "".concat(session.baseUrl, "/").concat(session.regionBankUrl, "/particulier/operations/synthese/");
+                url += "jcr:content.n1.asynchrone.encours.carte.servlet.json";
+                return [4 /*yield*/, getData(session, url)];
+            case 1:
+                data = _a.sent();
+                return [2 /*return*/, data];
         }
     });
 }); };

@@ -31,7 +31,7 @@ Paramètres pour l'authentification:
 
 ```JAVASCRIPT
 import { session } from "js-creditagricole-particuliers";
-/*...*/
+
 const password = "582942";
 const accountNumber = "12384927252";
 const region = "82";
@@ -46,7 +46,7 @@ Téléchargement de l'historique du compte au format .xlsx
 
 ```JAVASCRIPT
 import { getCurentTransactionXlsx } from "js-creditagricole-particuliers";
-/*...*/
+
 const fileName = "operations.xlsx";
 await getCurentTransactionXlsx(newSession, fileName);
 ```
@@ -57,7 +57,7 @@ Récupération de la liste des comptes de la session
 
 ```JAVASCRIPT
 import { getListAccounts } from "js-creditagricole-particuliers";
-/*...*/
+
 const accounts = await getListAccounts(newSession);
 ```
 
@@ -74,16 +74,10 @@ Paramètres pour la récupération des opérations:
 
 ```JAVASCRIPT
 import { getListAccounts, getOperations } from "js-creditagricole-particuliers";
-/*...*/
+
 const account = accounts.find((account) => account.numeroCompte === accountNumber);
-    if (!account) {
-        throw new Error("Account not found");
-    }
+if (!account) {
+    throw new Error("Account not found");
+}
 const operations = await getOperations(newSession, account, "2024-12-01", "2024-12-26");
 ```
-
-## Sources
-
-Ce projet est inspiré/converti de la version Python déjà existante.
-
-https://github.com/dmachard/python-creditagricole-particuliers

@@ -1,6 +1,6 @@
 {
     "name": "js-creditagricole-particuliers",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "",
     "repository": {
         "type": "git",
@@ -13,15 +13,15 @@
         "publish": "npm run build && npm publish",
         "build": "tsc",
         "dev": "tsc && npm run start",
-        "test": "node ./test/script.js"
+        "test": "npm run build && node ./test/script.js"
     },
     "keywords": [],
     "author": "jviatge",
     "license": "ISC",
     "devDependencies": {
-        "typescript": "^5.4.5"
+        "typescript": "^5.8.3"
     },
     "dependencies": {
-        "@types/node": "^22.10.2"
+        "@types/node": "^22.15.33"
     }
 }
