@@ -22,5 +22,4 @@ export type Operation = {
     pictogrammeCSS: string;
     fitid: string;
 };
-export declare const getOperations: (session: Session, account: Account, dateDebut: string, // "2024-12-20"
-dateFin: string) => Promise<Operation[]>;
+export declare const getOperations: (session: Session, account: Account, dateDebut: string, dateFin: string) => Promise<Operation[]>;

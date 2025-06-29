@@ -1,12 +1,61 @@
 import { Session } from "./session.js";
 
 export type Account = {
-    session: Session;
+    solde: number;
+    meteo: string;
+    cartes: any[];
+    cartesDD: any[];
+    operations: any[];
+    operationsInfo: {
+        hasNext: boolean;
+        listeOperations: any[];
+    };
+    formulesNBQ: any[];
+    libelleDevise: string;
+    typeProduit: string;
+    valorise: true;
+    idElementContrat: string;
     index: number;
-    account: any;
+    indexList: number;
+    codeProduit: string;
+    codeFamilleProduit: string;
+    idRoleClient: string;
+    idPartenaire: string;
+    libellePartenaire: string;
+    typePartenaire: string;
+    idDevise: string;
+    libelleProduit: string;
+    libelleUsuelProduit: string;
+    libelleCompte: string;
     numeroCompte: string;
-    compteIdx: number;
-    grandeFamilleProduitCode: number;
+    codeFamilleContratBam: string;
+    numeroCompteBam: string;
+    numeroSousCompteBam: string;
+    codeFamilleProduitBam: string;
+    codeNatureCompteBam: string;
+    natureCompteBam: string;
+    typeEcranBam: string;
+    libellePartenaireBam: string;
+    identifiantCompteSupportBam: string;
+    compteDepotATerme: false;
+    grandeFamilleProduits: string;
+    grandeFamilleProduitCode: string;
+    familleProduit: {
+        code: string;
+        grandeFamilleProduits: string;
+        libelle: string;
+        pertinence: number;
+        niveau: number;
+    };
+    sousFamilleProduit: {
+        code: string;
+        grandeFamilleProduits: string;
+        libelle: string;
+        pertinence: number;
+        niveau: number;
+    };
+    rolePartenaireCalcule: "COTITULAIRE";
+    numeroCompteSupportCreditBam: "00000000000";
 };
 
 export async function getListAccounts(session: Session) {
