@@ -138,15 +138,15 @@ var session = /** @class */ (function () {
                     case 0:
                         instSession = new session();
                         if (region.startsWith("ca-")) {
-                            instSession.regionBankUrl = region;
+                            found = REGIONS.find(function (r) { return r.code === region; });
                         }
                         else {
                             found = REGIONS.find(function (r) { return r.id === region; });
-                            if (!found) {
-                                throw new Error("[error] region cannot be found: ".concat(region));
-                            }
-                            instSession.regionBankUrl = found.code;
                         }
+                        if (!found) {
+                            throw new Error("[error] region cannot be found: ".concat(region));
+                        }
+                        instSession.regionBankUrl = found.code;
                         return [4 /*yield*/, instSession.getKeypad()];
                     case 1:
                         keypad = _a.sent();

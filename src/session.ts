@@ -6,7 +6,12 @@ export type Session = {
     csrfToken: string;
 };
 
-const REGIONS = [
+type Region = {
+    id: string;
+    code: string;
+}
+
+const REGIONS: Region[] = [
     { id: "05", code: "ca-alpesprovence" },
     { id: "84", code: "ca-alpesprovence" },
     { id: "13", code: "ca-alpesprovence" },
@@ -95,15 +100,16 @@ export class session {
 
     static async login(accountNumber: string, password: string, region: string): Promise<Session> {
         const instSession = new session();
+        let found: Region | undefined;
         if (region.startsWith("ca-")) {
-            instSession.regionBankUrl = region;
+            found = REGIONS.find((r) => r.code === region);
         } else {
-            const found = REGIONS.find((r) => r.id === region);
-            if (!found) {
-                throw new Error(`[error] region cannot be found: ${region}`);
-            }
-            instSession.regionBankUrl = found.code;
+            found = REGIONS.find((r) => r.id === region);
         }
+        if (!found) {
+            throw new Error(`[error] region cannot be found: ${region}`);
+        }
+        instSession.regionBankUrl = found.code;
         const keypad = await instSession.getKeypad();
         const passwordResolved = instSession.resolvePassword(keypad.keyLayout, password);
         await instSession.genCookie({
