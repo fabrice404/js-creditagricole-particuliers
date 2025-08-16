@@ -34,6 +34,87 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var REGIONS = [
+    { id: "05", code: "ca-alpesprovence" },
+    { id: "84", code: "ca-alpesprovence" },
+    { id: "13", code: "ca-alpesprovence" },
+    { id: "67", code: "ca-alsace-vosges" },
+    { id: "68", code: "ca-alsace-vosges" },
+    { id: "88", code: "ca-alsace-vosges" },
+    { id: "49", code: "ca-anjou-maine" },
+    { id: "72", code: "ca-anjou-maine" },
+    { id: "40", code: "ca-aquitaine" },
+    { id: "47", code: "ca-aquitaine" },
+    { id: "44", code: "ca-atlantique-vendee" },
+    { id: "85", code: "ca-atlantique-vendee" },
+    { id: "80", code: "ca-briepicardie" },
+    { id: "01", code: "ca-centrest" },
+    { id: "71", code: "ca-centrest" },
+    { id: "03", code: "ca-centrefrance" },
+    { id: "23", code: "ca-centrefrance" },
+    { id: "15", code: "ca-centrefrance" },
+    { id: "63", code: "ca-centrefrance" },
+    { id: "18", code: "ca-centreloire" },
+    { id: "58", code: "ca-centreloire" },
+    { id: "36", code: "ca-centreouest" },
+    { id: "87", code: "ca-centreouest" },
+    { id: "10", code: "ca-cb" },
+    { id: "21", code: "ca-cb" },
+    { id: "52", code: "ca-cb" },
+    { id: "79", code: "ca-cmds" },
+    { id: "16", code: "ca-charente-perigord" },
+    { id: "24", code: "ca-charente-perigord" },
+    { id: "22", code: "ca-cotesdarmor" },
+    { id: "74", code: "ca-des-savoie" },
+    { id: "29", code: "ca-finistere" },
+    { id: "25", code: "ca-franchecomte" },
+    { id: "70", code: "ca-franchecomte" },
+    { id: "39", code: "ca-franchecomte" },
+    { id: "90", code: "ca-franchecomte" },
+    { id: "35", code: "ca-illeetvilaine" },
+    { id: "30", code: "ca-languedoc" },
+    { id: "48", code: "ca-languedoc" },
+    { id: "34", code: "ca-languedoc" },
+    { id: "42", code: "ca-loirehauteloire" },
+    { id: "43", code: "ca-loirehauteloire" },
+    { id: "54", code: "ca-lorraine" },
+    { id: "55", code: "ca-lorraine" },
+    { id: "57", code: "ca-lorraine" },
+    { id: "56", code: "ca-morbihan" },
+    { id: "59", code: "ca-norddefrance" },
+    { id: "62", code: "ca-norddefrance" },
+    { id: "02", code: "ca-nord-est" },
+    { id: "51", code: "ca-nord-est" },
+    { id: "08", code: "ca-nord-est" },
+    { id: "12", code: "ca-nmp" },
+    { id: "81", code: "ca-nmp" },
+    { id: "82", code: "ca-nmp" },
+    { id: "14", code: "ca-normandie" },
+    { id: "50", code: "ca-normandie" },
+    { id: "76", code: "ca-normandie-seine" },
+    { id: "75", code: "ca-paris" },
+    { id: "78", code: "ca-paris" },
+    { id: "92", code: "ca-paris" },
+    { id: "93", code: "ca-paris" },
+    { id: "94", code: "ca-paris" },
+    { id: "95", code: "ca-paris" },
+    { id: "04", code: "ca-pca" },
+    { id: "83", code: "ca-pca" },
+    { id: "06", code: "ca-pca" },
+    { id: "64", code: "ca-pyrenees-gascogne" },
+    { id: "09", code: "ca-sudmed" },
+    { id: "66", code: "ca-sudmed" },
+    { id: "31", code: "ca-toulouse31" },
+    { id: "86", code: "ca-tourainepoitou" },
+    { id: "28", code: "ca-valdefrance" },
+    { id: "974", code: "ca-reunion" },
+    { id: "976", code: "ca-reunion" },
+    { id: "972", code: "ca-martinique" },
+    { id: "973", code: "ca-martinique" },
+    { id: "971", code: "ca-guadeloupe" },
+    { id: "2A", code: "ca-corse" },
+    { id: "2B", code: "ca-corse" },
+];
 var session = /** @class */ (function () {
     function session() {
         this.baseUrl = "https://www.credit-agricole.fr";
@@ -51,12 +132,21 @@ var session = /** @class */ (function () {
     }
     session.login = function (accountNumber, password, region) {
         return __awaiter(this, void 0, void 0, function () {
-            var instSession, keypad, passwordResolved;
+            var instSession, found, keypad, passwordResolved;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         instSession = new session();
-                        instSession.regionBankUrl = "ca-nmp";
+                        if (region.startsWith("ca-")) {
+                            instSession.regionBankUrl = region;
+                        }
+                        else {
+                            found = REGIONS.find(function (r) { return r.id === region; });
+                            if (!found) {
+                                throw new Error("[error] region cannot be found: ".concat(region));
+                            }
+                            instSession.regionBankUrl = found.code;
+                        }
                         return [4 /*yield*/, instSession.getKeypad()];
                     case 1:
                         keypad = _a.sent();
