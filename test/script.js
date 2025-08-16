@@ -16,7 +16,12 @@ async function main() {
     const accounts = await getListAccounts(newSession);
     const account = accounts.find((account) => account.numeroCompte === accountNumber);
 
-    console.log(account);
+    if (account) {
+        console.log(account);
+    } else {
+        console.log(`No account was found with number ${accountNumber}, listing all accounts`);
+        console.log(accounts.map((a => `${a.libelleProduit} - ${a.libellePartenaire.trim()} (${a.numeroCompte})`)))
+    }
 }
 
 main();
