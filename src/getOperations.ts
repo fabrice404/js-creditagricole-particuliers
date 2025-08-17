@@ -63,6 +63,7 @@ export const getOperations = async (
     dateDebut: string, // "2024-12-20"
     dateFin: string // "2024-12-26"
 ): Promise<Operation[]> => {
+    operations = [];
     const ts_date_debut = new Date(dateDebut).getTime();
     const ts_date_fin = new Date(dateFin).getTime();
     const limit = 90;
