@@ -91,6 +91,7 @@ dateFin // "2024-12-26"
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                operations = [];
                 ts_date_debut = new Date(dateDebut).getTime();
                 ts_date_fin = new Date(dateFin).getTime();
                 limit = 90;
